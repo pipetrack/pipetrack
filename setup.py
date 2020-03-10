@@ -3,11 +3,11 @@ from setuptools import setup, find_packages
 with open("README.md", "r") as readme_file:
     readme = readme_file.read()
 
-requirements = ["ipython>=6", "nbformat>=4", "nbconvert>=5", "requests>=2"]
+requirements = ["nbformat>=4", "nbconvert>=5", "requests>=2"]
 
 setup(
     name="pipetrack",
-    version="0.0.1",
+    version="0.0.4",
     author="Atamanyuk Andrew & Gajiev Kirill",
     description="A package to track steps of your ML projects",
     long_description=readme,
