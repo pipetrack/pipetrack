@@ -1,11 +1,11 @@
 import json
 from itertools import groupby
 
-start_ix = 0
+__start_ix = 0
 
 def start(_ih):
-    global start_ix
-    start_ix = len(_ih)
+    global __start_ix
+    __start_ix = len(_ih)
 
 def train():
     pass
@@ -20,8 +20,8 @@ def serve():
     pass
 
 def finish(_ih):
-    global start_ix
-    li = _ih[start_ix:]
+    global __start_ix
+    li = _ih[__start_ix:]
     di = {}
     split_at = ['pipetrack.train()', 'pipetrack.model()', 'pipetrack.metric()', 'pipetrack.serve()']
     di['train'] = li[li.index('pipetrack.train()')+1 : li.index('pipetrack.model()')]
