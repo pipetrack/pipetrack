@@ -32,12 +32,12 @@ def finish(_ih:list = None):
         for i in range(len(__list_of_phases)):
             try:
                 df[name] = ih[
-                ih.index(f'pipetrack.start_phase('{__list_of_phases[i]}')')+1 :
-                ih.index(f'pipetrack.start_phase('{__list_of_phases[i+1]}')')
+                ih.index(f'pipetrack.start_phase("{__list_of_phases[i]}")')+1 :
+                ih.index(f'pipetrack.start_phase("{__list_of_phases[i+1]}")')
                 ]
             except IndexError:
                 di[name] = ih[
-                ih.index(f'pipetrack.start_phase('{__list_of_phases[i]}')')+1 :
+                ih.index(f'pipetrack.start_phase("{__list_of_phases[i]}")')+1 :
                 -1]
 
         with open('log.json', 'w') as f:
