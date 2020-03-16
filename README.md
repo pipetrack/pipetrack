@@ -13,7 +13,7 @@ You can start new pipeline phase with:
 ```python
     pipetrack.start_phase("train data processing")
 ```
-or
+After executing needed steps, declare a new phase with:
 ```python
     pipetrack.start_phase("model_definition")
 ```
@@ -21,5 +21,6 @@ Finish current pipeline logging with
 ```python
     pipetrack.finish(_ih)
 ```
+You can start new logging with new pipetrack.start(_ih) function call.
 
-Please, consider using specified syntax (not ', but "; no whitespaces in code).
+Please, consider using specified syntax (not ' but "; no whitespaces in code).
