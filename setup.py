@@ -5,7 +5,7 @@ with open("README.md", "r") as readme_file:
 
 setup(
     name="pipetrack",
-    version="0.0.9",
+    version="0.1.0",
     author="Atamanyuk Andrew & Gajiev Kirill",
     description="A package to track steps of your ML projects",
     long_description=readme,
