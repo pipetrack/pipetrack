@@ -3,4 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './components/App/App';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+// @ts-ignore
+const id = window.lastReactRootID;
+
+ReactDOM.render(<App />, document.getElementById(id));
