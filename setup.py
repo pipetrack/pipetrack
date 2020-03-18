@@ -19,4 +19,5 @@ setup(
         "Programming Language :: Python :: 3.7",
         "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
     ],
+    package_data: {'pipetrack': ['frontend/build/static/js/main.js']}
 )
