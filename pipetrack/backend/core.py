@@ -3,9 +3,6 @@ for logging pipelines.
 """
 import json
 import os
-from IPython.core.display import HTML
-import random
-import string
 
 __start_ix = 0
 __list_of_phases = []
@@ -35,12 +32,12 @@ def finish(_ih:list = None):
         di = {}
         for i in range(len(__list_of_phases)):
             try:
-                df[name] = ih[
+                di[__list_of_phases[i]] = ih[
                 ih.index(f'pipetrack.start_phase("{__list_of_phases[i]}")')+1 :
                 ih.index(f'pipetrack.start_phase("{__list_of_phases[i+1]}")')
                 ]
             except IndexError:
-                di[name] = ih[
+                di[__list_of_phases[i]] = ih[
                 ih.index(f'pipetrack.start_phase("{__list_of_phases[i]}")')+1 :
                 -1]
 
