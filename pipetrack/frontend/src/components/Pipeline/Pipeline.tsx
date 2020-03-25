@@ -1,6 +1,5 @@
 import * as React from 'react';
-import ReactDOM from 'react-dom';
-import './Pipeline.css';
+import styles from './Pipeline.module.css';
 import createEngine, {
     DefaultLinkModel,
     DefaultNodeModel,
@@ -40,7 +39,12 @@ class Pipeline extends React.Component<Props, State> {
     componentDidMount(): void {
         const engine = createEngine();
 
-        const pipeline = Object.entries(mock).reduce((res, [name, values]) => {
+        // @ts-ignore
+        const decoded = JSON.parse(window.pipelineData.replace(/\n/g, ''));
+
+        const pipelineData = decoded as Record<string, string[]>;
+
+        const pipeline = Object.entries(pipelineData).reduce((res, [name, values]) => {
             values.forEach((value, valueID) => res.push({ name, value, valueID }));
             return res;
         }, [] as any[]);
@@ -102,20 +106,20 @@ class Pipeline extends React.Component<Props, State> {
         if (engine === null) return null;
         // @ts-ignore
         return (
-            <>
-                <CanvasWidget engine={engine!} className="pipeline"/>
+            <div className={styles.pipeline}>
+                <CanvasWidget engine={engine!} className={styles.pipeline__canvas} />
                 {
                     pipeline.map(({ name, valueID, value }) => {
                         const tooltipID = name + valueID;
 
                         return (
-                            <ReactTooltip id={tooltipID} className="tooltip" key={tooltipID}>
+                            <ReactTooltip id={tooltipID} className={styles.tooltip} key={tooltipID}>
                                 {value}
                             </ReactTooltip>
                         );
                     })
                 }
-            </>
+            </div>
         );
     }
 }

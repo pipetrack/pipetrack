@@ -4,7 +4,7 @@ import Pipeline from '../Pipeline/Pipeline';
 
 function App() {
   return (
-    <div className="App">
+    <div>
       <Pipeline />
     </div>
   );

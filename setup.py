@@ -5,7 +5,7 @@ with open("README.md", "r") as readme_file:
 
 setup(
     name="pipetrack",
-    version="0.1.7",
+    version="0.1.7rc34",
     author="Atamanyuk Andrew & Gadzhiev Kirill",
     description="Package for tracking steps of your ML projects",
     long_description=readme,
@@ -16,5 +16,5 @@ setup(
         "Programming Language :: Python :: 3.7",
         "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
     ],
-    package_data={'pipetrack': ['frontend/build/static/js/main.js']}
+    package_data={'pipetrack': ['frontend/build/static/js/main.js', 'frontend/build/static/css/*.css', 'pipetrack/backend', 'pipetrack/frontend']}
 )
