@@ -73,6 +73,7 @@ def show(_ih):
         <script>
             window.lastReactRootID = '{id}';
             window.pipelineData = `{pipeline_data}`;
+            window.isProduction = true;
         </script>
         <style>{css_bundle}</style>
     """

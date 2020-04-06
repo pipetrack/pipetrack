@@ -3,11 +3,14 @@ import './App.css';
 import Pipeline from '../Pipeline/Pipeline';
 
 function App() {
-  return (
-    <div>
-      <Pipeline />
-    </div>
-  );
+    //@ts-ignore
+    const useAppClass = !window.isProduction;
+
+    return (
+        <div className={useAppClass ? 'App' : 'kek'}>
+          <Pipeline />
+        </div>
+    );
 }
 
 export default App;
