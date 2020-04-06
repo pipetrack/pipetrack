@@ -4,6 +4,7 @@ for logging pipelines.
 import json
 import os
 
+
 __start_ix = 0
 __list_of_phases = []
 
@@ -31,6 +32,7 @@ def finish(_ih:list = None):
         ih = _ih[__start_ix:]
         di = {}
         for i in range(len(__list_of_phases)):
+            name = __list_of_phases[i]
             try:
                 di[__list_of_phases[i]] = ih[
                 ih.index(f'pipetrack.start_phase("{__list_of_phases[i]}")')+1 :

@@ -4,6 +4,6 @@ import './index.css';
 import App from './components/App/App';
 
 // @ts-ignore
-const id = window.lastReactRootID;
+const id = window.lastReactRootID || 'root';
 
 ReactDOM.render(<App />, document.getElementById(id));

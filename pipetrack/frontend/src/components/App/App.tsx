@@ -1,12 +1,16 @@
 import * as React from 'react';
 import './App.css';
+import Pipeline from '../Pipeline/Pipeline';
 
 function App() {
-  return (
-    <div className="App">
-      react-based div
-    </div>
-  );
+    //@ts-ignore
+    const useAppClass = !window.isProduction;
+
+    return (
+        <div className={useAppClass ? 'App' : 'kek'}>
+          <Pipeline />
+        </div>
+    );
 }
 
 export default App;

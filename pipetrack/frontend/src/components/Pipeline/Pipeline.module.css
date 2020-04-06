@@ -1,0 +1,14 @@
+.pipeline {
+  min-height: 250px;
+}
+
+.pipeline__canvas {
+  display: flex;
+  width: 100%;
+  min-height: 250px!important;
+  height: 250px!important;
+}
+
+.tooltip {
+  z-index: 2000000;
+}
