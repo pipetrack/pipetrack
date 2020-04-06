@@ -40,7 +40,8 @@ class Pipeline extends React.Component<Props, State> {
         const engine = createEngine();
 
         // @ts-ignore
-        const decoded = JSON.parse(window.pipelineData.replace(/\n/g, ''));
+        const decoded = window.isProduction ? JSON.parse(window.pipelineData.replace(/\n/g, '')) : mock;
+
 
         const pipelineData = decoded as Record<string, string[]>;
 
@@ -52,6 +53,7 @@ class Pipeline extends React.Component<Props, State> {
 
         const nodes = pipeline.map(({ name, value, valueID }, idx) => {
 
+            // зеленый, синий, красный, серый
             const color = name === 'train' ? 'green' : name === 'model' ? 'blue' : name === 'metric' ? 'red' : 'gray';
             const node = new DefaultNodeModel({
                 name: `${name}[${valueID}]`,
@@ -60,7 +62,7 @@ class Pipeline extends React.Component<Props, State> {
 
             node.setPosition( 100 * (idx + 1), 100);
             node.addInPort('');
-            node.addOutPort('');
+            node.addOutPort(' ');
             node.setLocked(true);
 
             return node;
@@ -73,6 +75,7 @@ class Pipeline extends React.Component<Props, State> {
             const nextInPort = node.getInPorts()?.[0];
 
             const link = prevOutPort.link<DefaultLinkModel>(nextInPort);
+            link.setLocked(true);
             res.push(link);
 
             return res;
@@ -114,7 +117,7 @@ class Pipeline extends React.Component<Props, State> {
 
                         return (
                             <ReactTooltip id={tooltipID} className={styles.tooltip} key={tooltipID}>
-                                {value}
+                                <pre>{value}</pre>
                             </ReactTooltip>
                         );
                     })

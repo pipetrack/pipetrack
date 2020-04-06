@@ -11,4 +11,14 @@
 
 .tooltip {
   z-index: 2000000;
+  background-color: antiquewhite!important;
+  color: #333!important;
+  opacity: 1!important;
+  font-weight: 700!important;
+}
+
+.tooltip:after {
+  border-top-color: orange !important;
+  border-top-style: solid !important;
+  border-top-width: 6px !important;
 }
