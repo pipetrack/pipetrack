@@ -1,14 +1,21 @@
 import os
-from IPython.core.display import HTML
+from IPython.core.display import HTML, Javascript
 import random
 import string
 
 def show(_ih):
     directory, filename = os.path.split(__file__)
-    DATA_PATH = os.path.join(directory, "..", "frontend", "build", "static", "js", "main.js")
+    JS_PATH = os.path.join(directory, "build", "static", "js", "main.js")
+    CSS_PATH = os.path.join(directory, "build", "static", "css")
+    CSS_PATH = CSS_PATH + '/' + os.listdir(CSS_PATH)[0]
     js_bundle = ''
+    css_bundle = ''
     pipeline_data = ''
-    with open(DATA_PATH, 'r') as f:
+
+    with open(CSS_PATH, 'r') as f:
+        css_bundle = f.read()
+
+    with open(JS_PATH, 'r') as f:
         js_bundle = f.read()
 
     with open('log.json', 'r') as f:
@@ -20,9 +27,11 @@ def show(_ih):
         <div id="{id}"></div>
         <script>
             window.lastReactRootID = '{id}';
-            window.pipelineData = {pipeline_data};
+            window.pipelineData = `{pipeline_data}`;
+            window.isProduction = true;
         </script>
-        <script>{js_bundle}</script>
+        <style>{css_bundle}</style>
     """
 
     display(HTML(content))
+    display(Javascript(js_bundle))
