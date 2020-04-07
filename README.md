@@ -1,6 +1,8 @@
 # pipetrack
 Don't make things complicated when pipelining your steps is all you need.
 
+![Image](https://github.com/pipetrack/pipetrack/tree/master/pipetrack/frontend/trackboard.png)
+
 ### Usage example:
 ```python
     import pipetrack
