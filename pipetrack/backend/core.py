@@ -14,26 +14,22 @@ class Track():
         if _ih is None:
             raise Exception("Input caching variable '_ih' must be passed")
         else:
-            __start_ix
-            __start_ix = len(_ih)
+            self.__start_ix = len(_ih)
 
     def start_phase(name:str = None):
         if name is None:
             raise Exception("Name of current phase must be passed")
         else:
-            __list_of_phases
-            __list_of_phases.append(name)
+            self.__list_of_phases.append(name)
 
 
     def finish(_ih:list = None):
         if _ih is None:
             raise Exception("Input caching variable '_ih' must be passed")
         else:
-            __start_ix
-            __list_of_phases
-            ih = _ih[__start_ix:]
+            ih = _ih[self.__start_ix:]
             di = {}
-            for first,second in zip(__list_of_phases, __list_of_phases[1:])):
+            for first,second in zip(self.__list_of_phases, self.__list_of_phases[1:])):
                 if second is None:
                     di[first] = ih[
                     ih.index(f'pipetrack.start_phase("{first}")')+1 :
