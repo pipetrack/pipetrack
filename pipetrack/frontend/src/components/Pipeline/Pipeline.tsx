@@ -6,9 +6,8 @@ import createEngine, {
     DiagramModel,
     DiagramEngine
 } from '@projectstorm/react-diagrams';
-
 import {CanvasWidget} from '@projectstorm/react-canvas-core';
-import ReactTooltip from 'react-tooltip'
+import ReactTooltip from 'react-tooltip';
 
 interface PipelineItem {
     name: string;
@@ -107,6 +106,9 @@ class Pipeline extends React.Component<Props, State> {
         // @ts-ignore
         return (
             <div className={styles.pipeline}>
+                <div>
+                    <img src="star.png" alt="star"/>
+                </div>
                 <CanvasWidget engine={engine!} className={styles.pipeline__canvas} />
                 {
                     pipeline.map(({ name, valueID, value }) => {

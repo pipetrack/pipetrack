@@ -1,5 +1,7 @@
 .pipeline {
   min-height: 250px;
+  background-color: #aaffff;
+  border-radius: 12px;
 }
 
 .pipeline__canvas {
