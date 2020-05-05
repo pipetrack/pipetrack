@@ -44,16 +44,22 @@ def finish(_ih:list = None):
                 -1]
 
         di['favorite'] = None
-        di['note'] = str
+        di['note'] = ''
 
-        with open('log.json') as f:
+        try:
+            f = open('log.json')
             all_log = json.load(f)
+            f.close()
+        except IOError:
+            all_log = {0:''}
 
-        last_key = max(log.keys())
+        last_key = max(all_log.keys())
 
-        this_log[last_key+1] = di
+        this_log = {}
+
+        this_log[int(last_key)+1] = di
 
         all_log.update(this_log)
 
         with open('log.json', 'w') as f:
-            json.dump(all_log)
+            json.dump(all_log, f)
