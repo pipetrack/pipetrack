@@ -13,9 +13,8 @@ def start(_ih:list = None):
         raise Exception("Input caching variable '_ih' must be passed")
     else:
         global __start_ix
-        __start_ix = len(_ih)
-
         global __list_of_phases
+        __start_ix = len(_ih)
         __list_of_phases = []
 
 def start_phase(name:str = None):
@@ -34,6 +33,7 @@ def finish(_ih:list = None):
         global __list_of_phases
         ih = _ih[__start_ix:]
         di = {}
+        di['__order'] = __list_of_phases
         for i in range(len(__list_of_phases)):
             name = __list_of_phases[i]
             try:
@@ -48,21 +48,20 @@ def finish(_ih:list = None):
 
         di['favorite'] = '0'
         di['note'] = ''
+        di['__favorite'] = '0'
+        di['__note'] = ''
 
         try:
             f = open('log.json')
-            all_log = json.load(f)
+            pipelines_log = json.load(f)
             f.close()
         except IOError:
-            all_log = {0:''}
+            pipelines_log = {}
 
-        last_key = max(all_log.keys())
-
-        this_log = {}
-
-        this_log[int(last_key)+1] = di
-
-        all_log.update(this_log)
+        if not pipelines_log:
+            pipelines_log[0] = di
+        else:
+            pipelines_log[max(pipelines_log.keys()) + 1] = di
 
         with open('log.json', 'w') as f:
-            json.dump(all_log, f)
+            json.dump(pipelines_log, f)
