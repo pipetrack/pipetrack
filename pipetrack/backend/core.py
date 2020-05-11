@@ -46,8 +46,6 @@ def finish(_ih:list = None):
                 ih.index(f'pipetrack.start_phase("{__list_of_phases[i]}")')+1 :
                 -1]
 
-        di['favorite'] = '0'
-        di['note'] = ''
         di['__favorite'] = '0'
         di['__note'] = ''
 
@@ -61,7 +59,7 @@ def finish(_ih:list = None):
         if not pipelines_log:
             pipelines_log[0] = di
         else:
-            pipelines_log[max(pipelines_log.keys()) + 1] = di
+            pipelines_log[int(max(pipelines_log.keys())) + 1] = di
 
         with open('log.json', 'w') as f:
             json.dump(pipelines_log, f)
