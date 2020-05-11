@@ -1,14 +1,41 @@
 .pipeline {
-  min-height: 250px;
-  background-color: #aaffff;
-  border-radius: 12px;
+    min-height: 250px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.star {
+    cursor: pointer;
+
+    font-size: 30px;
+    width: 30px;
+    height: 30px;
+
+    opacity: 0.9;
+
+    margin: 20px;
+}
+
+.star:hover {
+    opacity: 1;
+
+    transform: scale(1.05);
+}
+
+.star__active {
+    color: orange;
+}
+
+.star__active:hover {
 }
 
 .pipeline__canvas {
-  display: flex;
-  width: 100%;
-  min-height: 250px!important;
-  height: 250px!important;
+    display: flex;
+    min-height: 250px!important;
+    height: 250px!important;
+    flex-grow: 1;
 }
 
 .tooltip {

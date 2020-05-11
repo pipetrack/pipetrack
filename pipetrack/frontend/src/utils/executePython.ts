@@ -7,6 +7,16 @@ export default (python: string) => {
         };
 
         // @ts-ignore
-        Jupyter.notebook.kernel.execute(python, callbacks);
-    });
+        resolve(Jupyter.notebook.kernel.execute(python, callbacks));
+    }).then((res: any) => {
+        console.log(res);
+        console.log(JSON.stringify(res));
+        console.log(JSON.stringify(Object.keys(res)));
+    }).catch((res: any) => {
+        console.log(res);
+        console.log(JSON.stringify(res));
+        console.log(JSON.stringify(Object.keys(res)));
+    }).finally(() => {
+        console.log('FINALLY');
+    })
 }

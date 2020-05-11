@@ -15,6 +15,9 @@ def start(_ih:list = None):
         global __start_ix
         __start_ix = len(_ih)
 
+        global __list_of_phases
+        __list_of_phases = []
+
 def start_phase(name:str = None):
     if name is None:
         raise Exception("Name of current phase must be passed")
@@ -43,7 +46,7 @@ def finish(_ih:list = None):
                 ih.index(f'pipetrack.start_phase("{__list_of_phases[i]}")')+1 :
                 -1]
 
-        di['favorite'] = None
+        di['favorite'] = '0'
         di['note'] = ''
 
         try:
