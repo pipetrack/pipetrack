@@ -1,9 +1,33 @@
+.root {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #aaa;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 12px;
+}
+
+.note {
+    background: #ccc;
+    border-radius: 12px;
+    padding: 8px 12px;
+    min-height: 5em;
+    margin-top: -3em;
+    border: none;
+    outline: none;
+}
+
+.note:focus, .note:active {
+    outline: none;
+}
+
 .pipeline {
     min-height: 250px;
     border-radius: 12px;
     display: flex;
     flex-direction: row;
     align-items: center;
+    margin-top: -3em;
 }
 
 .star {

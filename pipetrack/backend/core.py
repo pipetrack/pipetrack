@@ -25,7 +25,7 @@ def start_phase(name:str = None):
         __list_of_phases.append(name)
 
 
-def finish(_ih:list = None):
+def finish(_ih:list = None, _oh:list = None):
     if _ih is None:
         raise Exception("Input caching variable '_ih' must be passed")
     else:
@@ -48,6 +48,8 @@ def finish(_ih:list = None):
 
         di['__favorite'] = '0'
         di['__note'] = ''
+
+        # di['__result'] = next((x for x in list(_oh.values()).reverse() if type(x) == float), None)
 
         try:
             f = open('log.json')
