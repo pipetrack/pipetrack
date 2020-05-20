@@ -6,7 +6,7 @@ import executePython from '../../utils/executePython';
 
 // ключ - номер пайплайна, значение - IPipeline
 // @ts-ignore
-const mock: Record<string, IPipeline> = {"0": {__favorite: '1', __note: "", __order: ["MOCK!!!!!!!!!!!", "model", "metric", "serve"], "MOCK!!!!!!!!!!!": ["test = 10", "more", "for i in range(10):\n    for _ in range(3):\n        print('some')"], "model": ["'model'"], "metric": ["'metric'"], "serve": []}, "1": {__favorite: '0', __note: "", __order: ["train"], train: ["eeeee"]}};
+const mock: Record<string, IPipeline> = {"0": {__favorite: '1', __note: "", __result: "0.5", __order: ["MOCK!!!!!!!!!!!", "model", "metric", "serve"], "MOCK!!!!!!!!!!!": ["test = 10", "more", "for i in range(10):\n    for _ in range(3):\n        print('some')"], "model": ["'model'"], "metric": ["'metric'"], "serve": []}, "1": {__favorite: '0', __note: "", __result: "0.6", __order: ["train"], train: ["eeeee"]}};
 
 function App() {
     //@ts-ignore

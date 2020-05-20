@@ -21,7 +21,7 @@ interface PipelineItem {
 const debouncesExecutePython = debounce(executePython, 50);
 
 // ключ - фаза, значение - список ячеек в фазе
-export type IPipeline = Record<string, Array<String>> & { __favorite: string; __note: string; __order: string[] };
+export type IPipeline = Record<string, Array<String>> & { __favorite: string; __note: string; __order: string[]; __result: string; };
 
 interface Props {
     pipeline: IPipeline;
@@ -56,7 +56,7 @@ class Pipeline extends React.Component<Props, State> {
 
         const pipeline = pipelineData.__order.reduce((res, name) => {
             // чекаем вдруг это служеюное поле
-            if (['__favorite', '__note', '__order'].includes(name)) {
+            if (['__favorite', '__note', '__order', '__result'].includes(name)) {
                 return res;
             }
 
@@ -186,23 +186,28 @@ with open('log.json', 'w') as f:
     render() {
         if (!this.props.pipeline) return null;
 
-        const {id: pipelineID, pipeline: {__favorite, __note}} = this.props;
+        const {id: pipelineID, pipeline: {__favorite, __note, __result}} = this.props;
         const {engine, pipeline} = this.state;
         if (engine === null) return null;
         // @ts-ignore
         return (
             <div className={styles.root}>
                 <div className={styles.pipeline}>
-                    <div
-                        className={classNames({
-                            fa: true,
-                            'fa-star': true,
-                            [styles.star]: true,
-                            [styles.star__active]: __favorite === "1",
-                        })}
+                    <div className={styles.column}>
+                        <div
+                            className={classNames({
+                                fa: true,
+                                'fa-star': true,
+                                [styles.star]: true,
+                                [styles.star__active]: __favorite === "1",
+                            })}
 
-                        onClick={this.setFavorite}
-                    />
+                            onClick={this.setFavorite}
+                        />
+                        <div>
+                            Результат:{` ${__result || 'неизвестно'}`}
+                        </div>
+                    </div>
                     <CanvasWidget engine={engine!} className={styles.pipeline__canvas} />
                     {
                         pipeline.map(({ name, valueID, value }) => {
