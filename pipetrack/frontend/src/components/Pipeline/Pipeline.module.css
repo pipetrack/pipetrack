@@ -1,20 +1,24 @@
 .root {
     display: flex;
     flex-direction: column;
-    border: 1px solid #aaa;
+    border: 1px solid #e0e2e8;
     padding: 5px;
     margin: 5px;
     border-radius: 12px;
+    position: relative;
 }
 
 .note {
-    background: #ccc;
+    background: #ebecef;
     border-radius: 12px;
     padding: 8px 12px;
     min-height: 5em;
     margin-top: -3em;
     border: none;
     outline: none;
+    resize: none;
+    cursor: pointer;
+    z-index: 10000;
 }
 
 .note:focus, .note:active {
@@ -35,11 +39,12 @@
     flex-direction: column;
     align-items: normal;
     max-width: 100px;
-
+    padding-left: 10px
 }
 
 .star {
     cursor: pointer;
+    color: #444;
 
     font-size: 30px;
     width: 30px;
@@ -72,4 +77,38 @@
 
 .tooltip {
   z-index: 2000000;
+}
+
+.ok, .zoom, .trash {
+    border-radius: 12px;
+    width: 40px;
+    height: 40px;
+    background: rgba(0,95,249,0.5);
+    color: white;
+    position: absolute;
+    bottom: 7px;
+    right: 7px;
+    vertical-align: center;
+    text-align: center;
+    font-size: 20px;
+    z-index: 10500;
+    line-height: 40px;
+    cursor: pointer;
+}
+
+.ok:hover, .zoom:hover, .trash:hover {
+    transform: scale(1.01);
+    background: rgba(0,95,249,0.55);
+}
+
+.zoom {
+    top: 4px;
+    right: 4px;
+    font-size: 28px;
+}
+
+.trash {
+    top: 46px;
+    right: 4px;
+    font-size: 28px;
 }

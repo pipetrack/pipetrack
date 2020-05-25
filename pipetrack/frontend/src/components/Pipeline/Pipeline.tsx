@@ -11,6 +11,9 @@ import ReactTooltip from 'react-tooltip';
 import classNames from 'classnames';
 import executePython from '../../utils/executePython';
 import {debounce} from '../../utils/debounce';
+import saveNote from '../../snippets/saveNote';
+import favoriteUpdate from '../../snippets/favoriteUpdate';
+import deletePipeline from '../../snippets/deletePipeline';
 
 interface PipelineItem {
     name: string;
@@ -28,6 +31,7 @@ interface Props {
     id: string;
     setFavorite: Function;
     setNote: Function;
+    removePipeline: Function;
 }
 
 interface State {
@@ -35,6 +39,7 @@ interface State {
     nodes: DefaultNodeModel[] | null;
     pipeline: PipelineItem[];
     note: string;
+    editing: boolean;
 }
 
 class Pipeline extends React.Component<Props, State> {
@@ -43,6 +48,7 @@ class Pipeline extends React.Component<Props, State> {
         nodes: null,
         pipeline: [],
         note: '',
+        editing: false,
     };
 
 
@@ -97,12 +103,13 @@ class Pipeline extends React.Component<Props, State> {
         const model = new DiagramModel();
         model.addAll(...nodes, ...links);
         engine.setModel(model);
-        // engine.zoomToFit();
 
         const note = this.props.pipeline.__note;
 
         this.setState({ engine, nodes, pipeline, note });
     }
+
+    zoomToFit = () => this.state.engine?.zoomToFit?.();
 
     componentDidUpdate(prevProps: Readonly<Props>, prevState: Readonly<State>, snapshot?: any): void {
         const { nodes, pipeline } = this.state;
@@ -119,35 +126,23 @@ class Pipeline extends React.Component<Props, State> {
         ReactTooltip.rebuild();
     }
 
-    onBlurNote = () => {
-        const { id, setNote } = this.props;
-
-        const code = `
-import json
-
-try:
-    f = open('log.json')
-    all_log = json.load(f)
-    f.close()
-except IOError:
-    all_log = {0:''}
-    
-for key in all_log:
-    if isinstance(all_log[key], dict):
-        if key == "${id}":
-            all_log[key]["__note"] = "${this.state.note}"
-
-with open('log.json', 'w') as f:
-    json.dump(all_log, f)`.trim();
-
-        //@ts-ignore
-        executePython(code);
-        setNote(id, this.state.note);
+    setEditing = (editing: boolean) => {
+        this.setState({editing});
     };
 
-    handleNoteChange = async ({target: {value}}: any): Promise<void> => {
+    onBlurNote = () => {
         const { id, setNote } = this.props;
+        const code = saveNote(id, this.noteValue);
 
+        //@ts-ignore
+        this.setEditing(false);
+        executePython(code);
+        setNote(id, this.noteValue);
+    };
+
+    onFocusNote = () => this.setEditing(true);
+
+    handleNoteChange = ({target: {value}}: any): void => {
         //@ts-ignore
         this.setState({note: value});
 
@@ -155,33 +150,30 @@ with open('log.json', 'w') as f:
     };
 
     setFavorite = async () => {
-        const { id, setFavorite, pipeline: {__favorite, __note} } = this.props;
+        const { id, setFavorite, pipeline: {__favorite} } = this.props;
         const value = __favorite === '1' ? '0' : '1';
         const otherValue = '0';
 
-        const code = `
-import json
-
-try:
-    f = open('log.json')
-    all_log = json.load(f)
-    f.close()
-except IOError:
-    all_log = {0:''}
-    
-for key in all_log:
-    if isinstance(all_log[key], dict):
-        if key == "${id}":
-            all_log[key]["__favorite"] = "${value}"
-        else:
-            all_log[key]["__favorite"] = "${otherValue}"
-
-with open('log.json', 'w') as f:
-    json.dump(all_log, f)`.trim();
+        const code = favoriteUpdate(id, value, otherValue);
 
         await executePython(code);
         setFavorite(id, value);
     };
+
+    deletePipeline = async () => {
+        const { id, removePipeline } = this.props;
+
+        const code = deletePipeline(id);
+
+        await executePython(code);
+        removePipeline(id);
+    };
+
+    textarea = React.createRef<HTMLTextAreaElement>();
+
+    get noteValue(): string|undefined {
+        return this.textarea?.current?.value;
+    }
 
     render() {
         if (!this.props.pipeline) return null;
@@ -193,6 +185,22 @@ with open('log.json', 'w') as f:
         return (
             <div className={styles.root}>
                 <div className={styles.pipeline}>
+                    <div
+                        className={classNames({
+                            fa: true,
+                            'fa-compress': true,
+                            [styles.zoom]: true,
+                        })}
+                        onClick={this.zoomToFit}
+                    />
+                    <div
+                        className={classNames({
+                            fa: true,
+                            'fa-trash': true,
+                            [styles.trash]: true,
+                        })}
+                        onClick={this.deletePipeline}
+                    />
                     <div className={styles.column}>
                         <div
                             className={classNames({
@@ -215,13 +223,31 @@ with open('log.json', 'w') as f:
 
                             return (
                                 <ReactTooltip id={tooltipID} className={styles.tooltip} key={tooltipID}>
-                                    {value}
+                                    <pre style={{color:"white"}}>
+                                        {value}
+                                    </pre>
                                 </ReactTooltip>
                             );
                         })
                     }
                 </div>
-                <input onBlur={this.onBlurNote} value={this.state.note} type="text" multiple onChange={this.handleNoteChange} className={styles.note}/>
+                <textarea
+                    ref={this.textarea}
+                    defaultValue={this.props.pipeline.__note}
+                    className={styles.note}
+                    onFocus={this.onFocusNote}
+                    onBlur={this.onBlurNote}
+                />
+                {this.state.editing && (
+                    <div
+                        className={classNames({
+                            fa: true,
+                            'fa-check': true,
+                            [styles.ok]: true,
+                        })}
+                        onClick={this.onBlurNote}
+                    />
+                )}
             </div>
         );
     }

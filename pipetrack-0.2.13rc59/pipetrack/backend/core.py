@@ -49,7 +49,7 @@ def finish(_ih:list = None, _oh:list = None):
         di['__favorite'] = '0'
         di['__note'] = ''
 
-        di['__result'] = next((x for x in list(_oh.values())[::-1] if isinstance(x, float)), "")
+        di['__result'] = next((x for x in list(_oh.values())[::-1] if type(x) == float), "")
 
         try:
             f = open('log.json')

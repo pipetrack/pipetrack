@@ -3,6 +3,7 @@ import './App.css';
 import Pipeline, {IPipeline} from '../Pipeline/Pipeline';
 import {useEffect} from 'react';
 import executePython from '../../utils/executePython';
+import appSnippet from '../../snippets/appSnippet';
 
 // ключ - номер пайплайна, значение - IPipeline
 // @ts-ignore
@@ -20,7 +21,7 @@ function App() {
         setPipelines(newPipelines);
 
         executePython(`display(Javascript("window.pipelineData = ${JSON.stringify(newPipelines)}"))`);
-        // //@ts-ignore
+        //@ts-ignore
         // window.pipelineData = newPipelines;
     };
 
@@ -40,12 +41,27 @@ function App() {
         // window.pipelineData = newPipelines;
     };
 
+    const removePipeline = (id: number) => {
+        const newPipelines = {...pipelines,};
+        if (newPipelines[id]) {
+            delete newPipelines[id];
+        }
+
+        setPipelines(newPipelines);
+        //@ts-ignore
+        executePython(`display(Javascript("window.pipelineData = ${JSON.stringify(newPipelines)}"))`);
+    };
+
     useEffect(() => {
         try {
-            //@ts-ignore
-            const parsed = window.pipelineData;
-            // const parsed = JSON.parse(window.pipelineData?.replace(/\n/g, ''));
-            setPipelines(parsed);
+            executePython(appSnippet).then(() => {
+                //@ts-ignore
+                const parsed = window.pipelineData;
+                // const parsed = JSON.parse(window.pipelineData?.replace(/\n/g, ''));
+                setPipelines(parsed);
+            }).catch(console.log);
+
+
         } catch (e) {
             setPipelines(mock);
             console.log(e);
@@ -61,6 +77,7 @@ function App() {
                               pipeline={pipeline}
                               setFavorite={setFavorite}
                               setNote={setNote}
+                              removePipeline={removePipeline}
                     />)
             }
         </div>

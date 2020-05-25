@@ -33,6 +33,7 @@ def show(_ih):
         <div id="{id}"></div>
         <script>
             window.lastReactRootID = '{id}';
+            window.pipelineData = {pipeline_data};
             window.isProduction = true;
         </script>
         <style>{css_bundle}</style>
@@ -40,4 +41,3 @@ def show(_ih):
 
     display(HTML(content))
     display(Javascript(js_bundle))
-    display(Javascript(f"""window.pipelineData = {pipeline_data};"""))
