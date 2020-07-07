@@ -1,5 +1,7 @@
 export default `
 import json
+import os
+from IPython.core.display import HTML, Javascript
 
 try:
     f = open('log.json')
@@ -7,5 +9,10 @@ try:
     f.close()
 except IOError:
     all_log = {0:''}
-    
-display(Javascript(f"""window.pipelineData = {pipeline_data};"""))`;
+
+content = f"""
+    <script>
+        window.pipelineData = {all_log}
+    </script>"""
+
+display(HTML(content))`.trim();

@@ -172,7 +172,7 @@ class Pipeline extends React.Component<Props, State> {
     textarea = React.createRef<HTMLTextAreaElement>();
 
     get noteValue(): string|undefined {
-        return this.textarea?.current?.value;
+        return this.state.note;
     }
 
     render() {
@@ -232,12 +232,13 @@ class Pipeline extends React.Component<Props, State> {
                     }
                 </div>
                 <textarea
-                    ref={this.textarea}
-                    defaultValue={this.props.pipeline.__note}
+                    onChange={this.handleNoteChange}
                     className={styles.note}
                     onFocus={this.onFocusNote}
                     onBlur={this.onBlurNote}
-                />
+                >
+                    {this.state.note}
+                </textarea>
                 {this.state.editing && (
                     <div
                         className={classNames({
