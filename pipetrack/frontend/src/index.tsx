@@ -1,9 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import './index.css';
-import App from './components/App/App';
+import IntegrationController from './controllers/IntegrationController';
 
 // @ts-ignore
-const id = window.lastReactRootID || 'root';
+const id = IntegrationController.isScriptsInserted ? window.lastReactRootID : 'root';
 
-ReactDOM.render(<App />, document.getElementById(id));
+IntegrationController.insertScripts(id);

@@ -7,8 +7,7 @@ import json
 def show(_ih):
     directory, filename = os.path.split(__file__)
     JS_PATH = os.path.join(directory, "build", "static", "js", "main.js")
-    CSS_PATH = os.path.join(directory, "build", "static", "css")
-    CSS_PATH = CSS_PATH + '/' + os.listdir(CSS_PATH)[0]
+    CSS_PATH = os.path.join(directory, "build", "static", "css", "main.css")
     js_bundle = ''
     css_bundle = ''
     pipeline_data = {}

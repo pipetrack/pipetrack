@@ -1,8 +1,11 @@
 import React, {useEffect} from 'react';
 import './App.css';
-import Pipeline, {IPipeline} from '../Pipeline/Pipeline';
+import PipelineComponent, {IPipeline} from '../PipelineComponent/PipelineComponent';
 import Integration from '../../transactions/Integration/Integration';
 import SavePipelines from '../../transactions/Pipeline/SavePipelines';
+import GetPipelines from '../../transactions/Pipeline/GetPipelines';
+import PipelineController from '../../controllers/PipelineController';
+import IntegrationController from '../../controllers/IntegrationController';
 
 // ключ - номер пайплайна, значение - IPipeline
 // @ts-ignore
@@ -34,7 +37,7 @@ function App() {
 
         setPipelines(newPipelines);
 
-        SavePipelines.run(newPipelines);
+        // SavePipelines.run(newPipelines);
     };
 
     const removePipeline = (id: number) => {
@@ -49,10 +52,8 @@ function App() {
 
     useEffect(() => {
         try {
-            Integration.run().then(() => {
-                //@ts-ignore
-                const parsed = window.pipelineData; // const parsed = JSON.parse(window.pipelineData?.replace(/\n/g, ''));
-                setPipelines(parsed);
+            IntegrationController.integrate().then(() => {
+                setPipelines(PipelineController.pipelineList);
             }).catch(console.log);
 
 
@@ -66,12 +67,12 @@ function App() {
         <div className={useAppClass ? 'App_dev' : 'App_prod'}>
             {
                 Object.entries(pipelines).map(([id, pipeline]) =>
-                    <Pipeline key={id}
-                              id={id}
-                              pipeline={pipeline}
-                              setFavorite={setFavorite}
-                              setNote={setNote}
-                              removePipeline={removePipeline}
+                    <PipelineComponent key={id}
+									   id={id}
+									   pipeline={pipeline}
+									   setFavorite={setFavorite}
+									   setNote={setNote}
+									   removePipeline={removePipeline}
                     />)
             }
         </div>

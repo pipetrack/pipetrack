@@ -11,7 +11,8 @@ import ReactTooltip from 'react-tooltip';
 import classNames from 'classnames';
 import DeletePipeline from '../../transactions/Pipeline/DeletePipeline';
 import SetFavoritePipeline from '../../transactions/Pipeline/SetFavoritePipeline';
-import SaveNote from '../../transactions/Note/SaveNote';
+import PipelineController from '../../controllers/PipelineController';
+import NoteController from '../../controllers/NoteController';
 
 interface PipelineItem {
     name: string;
@@ -38,7 +39,7 @@ interface State {
     editing: boolean;
 }
 
-class Pipeline extends React.Component<Props, State> {
+class PipelineComponent extends React.Component<Props, State> {
     state: State = {
         engine: null,
         nodes: null,
@@ -46,8 +47,6 @@ class Pipeline extends React.Component<Props, State> {
         note: '',
         editing: false,
     };
-
-
 
     componentDidMount(): void {
         const pipelineData = this.props.pipeline;
@@ -100,7 +99,7 @@ class Pipeline extends React.Component<Props, State> {
         model.addAll(...nodes, ...links);
         engine.setModel(model);
 
-        const note = this.props.pipeline.__note;
+        const note = NoteController.getNote(this.props.id);
 
         this.setState({ engine, nodes, pipeline, note });
     }
@@ -131,7 +130,7 @@ class Pipeline extends React.Component<Props, State> {
 
         //@ts-ignore
         this.setEditing(false);
-		SaveNote.run(id, this.noteValue);
+		NoteController.setNote(id, this.noteValue);
         setNote(id, this.noteValue);
     };
 
@@ -147,7 +146,6 @@ class Pipeline extends React.Component<Props, State> {
     setFavorite = async () => {
         const { id, setFavorite, pipeline: { __favorite: isFavorite } } = this.props;
         const value = isFavorite === '1' ? '0' : '1';
-        const otherValue = '0';
 
         await SetFavoritePipeline.run(id, value);
 
@@ -200,7 +198,7 @@ class Pipeline extends React.Component<Props, State> {
                                 fa: true,
                                 'fa-star': true,
                                 [styles.star]: true,
-                                [styles.star__active]: __favorite === "1",
+                                [styles.star__active]: PipelineController.favoritePipeline === this.props.pipeline,
                             })}
 
                             onClick={this.setFavorite}
@@ -247,4 +245,4 @@ class Pipeline extends React.Component<Props, State> {
     }
 }
 
-export default Pipeline;
+export default PipelineComponent;

@@ -9,14 +9,19 @@ export default (python: string) => {
         // @ts-ignore
         resolve(Jupyter.notebook.kernel.execute(python, callbacks));
     }).then((res: any) => {
-        console.log(res);
-        console.log(JSON.stringify(res));
-        console.log(JSON.stringify(Object.keys(res)));
+        // console.log(res);
+        // console.log(JSON.stringify(res));
+        // console.log(JSON.stringify(Object.keys(res)));
     }).catch((res: any) => {
-        console.log(res);
-        console.log(JSON.stringify(res));
-        console.log(JSON.stringify(Object.keys(res)));
+        // console.log(res);
+        // console.log(JSON.stringify(res));
+        // console.log(JSON.stringify(Object.keys(res)));
     }).finally(() => {
         console.log('FINALLY');
     })
 }
+
+export const execute = (code: string) => {
+	console.trace(code);
+	return Promise.resolve();
+};
