@@ -1,9 +1,8 @@
-import * as React from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import Pipeline, {IPipeline} from '../Pipeline/Pipeline';
-import {useEffect} from 'react';
-import executePython from '../../utils/executePython';
-import appSnippet from '../../snippets/appSnippet';
+import Integration from '../../transactions/Integration/Integration';
+import SavePipelines from '../../transactions/Pipeline/SavePipelines';
 
 // ключ - номер пайплайна, значение - IPipeline
 // @ts-ignore
@@ -21,9 +20,7 @@ function App() {
 
         setPipelines(newPipelines);
 
-        executePython(`display(Javascript("window.pipelineData = ${JSON.stringify(newPipelines)}"))`);
-        //@ts-ignore
-        // window.pipelineData = newPipelines;
+        SavePipelines.run(newPipelines);
     };
 
     const setFavorite = (id: string, state: string) => {
@@ -37,9 +34,7 @@ function App() {
 
         setPipelines(newPipelines);
 
-        executePython(`display(Javascript("window.pipelineData = ${JSON.stringify(newPipelines)}"))`);
-        // //@ts-ignore
-        // window.pipelineData = newPipelines;
+        SavePipelines.run(newPipelines);
     };
 
     const removePipeline = (id: number) => {
@@ -49,16 +44,14 @@ function App() {
         }
 
         setPipelines(newPipelines);
-        //@ts-ignore
-        executePython(`display(Javascript("window.pipelineData = ${JSON.stringify(newPipelines)}"))`);
+        SavePipelines.run(newPipelines);
     };
 
     useEffect(() => {
         try {
-            executePython(appSnippet).then(() => {
+            Integration.run().then(() => {
                 //@ts-ignore
-                const parsed = window.pipelineData;
-                // const parsed = JSON.parse(window.pipelineData?.replace(/\n/g, ''));
+                const parsed = window.pipelineData; // const parsed = JSON.parse(window.pipelineData?.replace(/\n/g, ''));
                 setPipelines(parsed);
             }).catch(console.log);
 

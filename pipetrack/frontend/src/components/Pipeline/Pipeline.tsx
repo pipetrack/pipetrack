@@ -9,19 +9,15 @@ import createEngine, {
 import {CanvasWidget} from '@projectstorm/react-canvas-core';
 import ReactTooltip from 'react-tooltip';
 import classNames from 'classnames';
-import executePython from '../../utils/executePython';
-import {debounce} from '../../utils/debounce';
-import saveNote from '../../snippets/saveNote';
-import favoriteUpdate from '../../snippets/favoriteUpdate';
-import deletePipeline from '../../snippets/deletePipeline';
+import DeletePipeline from '../../transactions/Pipeline/DeletePipeline';
+import SetFavoritePipeline from '../../transactions/Pipeline/SetFavoritePipeline';
+import SaveNote from '../../transactions/Note/SaveNote';
 
 interface PipelineItem {
     name: string;
     value: string;
     valueID: string;
 }
-
-const debouncesExecutePython = debounce(executePython, 50);
 
 // ключ - фаза, значение - список ячеек в фазе
 export type IPipeline = Record<string, Array<String>> & { __favorite: string; __note: string; __order: string[]; __result: string; };
@@ -132,11 +128,10 @@ class Pipeline extends React.Component<Props, State> {
 
     onBlurNote = () => {
         const { id, setNote } = this.props;
-        const code = saveNote(id, this.noteValue);
 
         //@ts-ignore
         this.setEditing(false);
-        executePython(code);
+		SaveNote.run(id, this.noteValue);
         setNote(id, this.noteValue);
     };
 
@@ -150,22 +145,20 @@ class Pipeline extends React.Component<Props, State> {
     };
 
     setFavorite = async () => {
-        const { id, setFavorite, pipeline: {__favorite} } = this.props;
-        const value = __favorite === '1' ? '0' : '1';
+        const { id, setFavorite, pipeline: { __favorite: isFavorite } } = this.props;
+        const value = isFavorite === '1' ? '0' : '1';
         const otherValue = '0';
 
-        const code = favoriteUpdate(id, value, otherValue);
+        await SetFavoritePipeline.run(id, value);
 
-        await executePython(code);
         setFavorite(id, value);
     };
 
     deletePipeline = async () => {
         const { id, removePipeline } = this.props;
 
-        const code = deletePipeline(id);
+        await DeletePipeline.run(id);
 
-        await executePython(code);
         removePipeline(id);
     };
 

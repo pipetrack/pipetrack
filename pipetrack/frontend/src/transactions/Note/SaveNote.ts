@@ -1,4 +1,9 @@
-export default (id: string, value: string = '') => `
+import {TransactionScript} from '../TransactionScript';
+import executePython from '../../utils/executePython';
+
+class SaveNote extends TransactionScript {
+	run(id: string, value: string = ''): Promise<void> {
+		const code = `
 import json
 
 try:
@@ -15,3 +20,9 @@ for key in all_log:
 
 with open('log.json', 'w') as f:
     json.dump(all_log, f)`.trim();
+
+		return executePython(code);
+	}
+}
+
+export default new SaveNote();
