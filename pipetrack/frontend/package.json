@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@babel/core": "7.8.4",
     "@emotion/core": "^10.0.28",
     "@emotion/styled": "^10.0.27",
     "@projectstorm/react-diagrams": "^6.0.1-beta.7",
@@ -21,7 +20,6 @@
     "@typescript-eslint/eslint-plugin": "^2.10.0",
     "@typescript-eslint/parser": "^2.10.0",
     "babel-eslint": "10.0.3",
-    "babel-jest": "^24.9.0",
     "babel-loader": "8.0.6",
     "babel-plugin-named-asset-import": "^0.3.6",
     "babel-plugin-react-css-modules": "^5.2.6",
@@ -46,7 +44,6 @@
     "fs-extra": "^8.1.0",
     "html-webpack-plugin": "4.0.0-beta.11",
     "identity-obj-proxy": "3.0.0",
-    "jest": "24.9.0",
     "jest-environment-jsdom-fourteen": "1.0.1",
     "jest-resolve": "24.9.0",
     "jest-watch-typeahead": "0.4.2",
@@ -85,7 +82,8 @@
   },
   "scripts": {
     "start": "node scripts/start.js",
-    "build": "node scripts/build.js"
+    "build": "node scripts/build.js",
+    "test": "jest --coverage=true"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -103,6 +101,7 @@
     ]
   },
   "jest": {
+    "collectCoverage": true,
     "roots": [
       "<rootDir>/src"
     ],
@@ -154,5 +153,12 @@
     "presets": [
       "react-app"
     ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.4",
+    "@babel/preset-env": "^7.12.11",
+    "@babel/preset-typescript": "^7.12.7",
+    "babel-jest": "^24.9.0",
+    "jest": "^24.9.0"
   }
 }

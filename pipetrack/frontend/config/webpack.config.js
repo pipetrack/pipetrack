@@ -653,7 +653,7 @@ module.exports = function(webpackEnv) {
     node: {
       module: 'empty',
       dgram: 'empty',
-      dns: 'mock',
+      dns: 'PIPELINES_MOCK',
       fs: 'empty',
       http2: 'empty',
       net: 'empty',
