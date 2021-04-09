@@ -23,7 +23,9 @@ def show(_ih):
         pipeline_data = json.load(f)
         f.close()
     except IOError:
-        pass
+        display(HTML("<h1>Не удалось загрузить информацию о пайплайнах"))
+    except json.JSONDecodeError:
+        display(HTML("<h1>Данные пайплайнов повреждены. Проверьте файл log.json и обновите Pipetrack."))
 
     id = ''.join(random.choice(string.ascii_lowercase) for i in range(10))
 
